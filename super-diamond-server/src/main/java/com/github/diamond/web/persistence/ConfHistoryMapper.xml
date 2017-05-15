@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.diamond.web.persistence.ConfHistoryMapper" >
+  <resultMap id="BaseResultMap" type="com.github.diamond.web.model.ConfHistory" >
+    <id column="HIS_ID" property="hisId" jdbcType="INTEGER" />
+    <result column="CONFIG_ID" property="configId" jdbcType="INTEGER" />
+    <result column="CONFIG_KEY" property="configKey" jdbcType="VARCHAR" />
+    <result column="CONFIG_VALUE" property="configValue" jdbcType="LONGVARCHAR" />
+    <result column="OPT_USER" property="optUser" jdbcType="VARCHAR" />
+    <result column="OPT_TIME" property="optTime" jdbcType="TIMESTAMP" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    HIS_ID, CONFIG_ID, CONFIG_KEY,CONFIG_VALUE, OPT_USER, OPT_TIME,TYPE
+  </sql>
+
+<select id="queryConfHisByConfId" parameterType="com.github.diamond.web.model.ConfHistory" resultMap="BaseResultMap">
+  select <include refid="Base_Column_List"/>
+   from conf_history A where A.config_id=#{configId,jdbcType=INTEGER} and A.type=#{type,jdbcType=VARCHAR}
+  order by OPT_TIME desc
+</select>
+  <select id="queryByHisId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from conf_history A where A.his_id=#{hisId,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from conf_history
+    where HIS_ID = #{hisId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByBatch">
+    delete from conf_history WHERE his_id in
+    <foreach collection="hisIds" item="hisId"
+             index="index" open="(" close=")" separator=",">
+      #{hisId}
+    </foreach>
+  </delete>
+  <insert id="insert" parameterType="com.github.diamond.web.model.ConfHistory" >
+    insert into conf_history
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="configId != null" >
+        CONFIG_ID,
+      </if>
+      <if test="configKey != null" >
+        CONFIG_KEY,
+      </if>
+      <if test="configValue != null" >
+        CONFIG_VALUE,
+      </if>
+      <if test="optUser != null" >
+        OPT_USER,
+      </if>
+      <if test="optTime != null" >
+        OPT_TIME,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="configId != null" >
+        #{configId,jdbcType=INTEGER},
+      </if>
+      <if test="configKey != null" >
+        #{configKey,jdbcType=VARCHAR},
+      </if>
+      <if test="configValue != null" >
+        #{configValue,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="optUser != null" >
+        #{optUser,jdbcType=VARCHAR},
+      </if>
+      <if test="optTime != null" >
+        #{optTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

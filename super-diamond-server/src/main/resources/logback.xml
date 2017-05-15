@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true">
+	<!-- 声明变量 -->
+	<property name="app.log.dir" value="/data/webroot/diamond-server/logs"/>
+	<appender name="STDOUT"	class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%date{ISO8601} %-5level [%thread] %logger{32} - %message%n</pattern>
+		</layout>
+	</appender>
+
+	<appender name="super-diamond-server" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${app.log.dir}/diamond-server-web-%d.log</fileNamePattern>
+			<maxHistory>300</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%date{ISO8601} %-5level [%thread] %logger{32} - %message%n</pattern>
+			<immediateFlush>true</immediateFlush>
+		</encoder>
+	</appender>
+
+	<!-- 用户访问日志 -->
+	<appender name="web-access-log" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>${app.log.dir}/web-access-diamond-log-%d.log</fileNamePattern>
+
+			<!-- keep 300 days' worth of history -->
+			<maxHistory>300</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%date{ISO8601} %-5level [%thread] %logger{32} [uid,url,status,times,ip,ua,platform,refer] - %message%n</pattern>
+			<immediateFlush>true</immediateFlush>
+		</encoder>
+	</appender>
+	<logger name="web-access-log" level="info" additivity="false">
+		<appender-ref ref="web-access-log" />
+	</logger>
+
+
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="super-diamond-server"/>
+	</root>
+
+</configuration>

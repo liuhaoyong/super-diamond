@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.diamond.web.persistence.ConfProjectConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.github.diamond.web.model.ConfProjectConfig" >
+    <id column="CONFIG_ID" property="configId" jdbcType="INTEGER" />
+    <result column="CONFIG_KEY" property="configKey" jdbcType="VARCHAR" />
+    <result column="CONFIG_VALUE" property="configValue" jdbcType="VARCHAR" />
+    <result column="CONFIG_DESC" property="configDesc" jdbcType="VARCHAR" />
+    <result column="PROJECT_ID" property="projectId" jdbcType="INTEGER" />
+    <result column="MODULE_ID" property="moduleId" jdbcType="INTEGER" />
+    <result column="DELETE_FLAG" property="deleteFlag" jdbcType="INTEGER" />
+    <result column="OPT_USER" property="optUser" jdbcType="VARCHAR" />
+    <result column="OPT_TIME" property="optTime" jdbcType="TIMESTAMP" />
+    <result column="PRODUCTION_VALUE" property="productionValue" jdbcType="VARCHAR" />
+    <result column="PRODUCTION_USER" property="productionUser" jdbcType="VARCHAR" />
+    <result column="PRODUCTION_TIME" property="productionTime" jdbcType="TIMESTAMP" />
+    <result column="TEST_VALUE" property="testValue" jdbcType="VARCHAR" />
+    <result column="TEST_USER" property="testUser" jdbcType="VARCHAR" />
+    <result column="TEST_TIME" property="testTime" jdbcType="TIMESTAMP" />
+    <result column="PRE_VALUE" property="preValue" jdbcType="VARCHAR" />
+    <result column="PRE_USER" property="preUser" jdbcType="VARCHAR" />
+    <result column="PRE_TIME" property="preTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ProjModuleResultMap" type="com.github.diamond.web.vo.ConfProjModuleVO" >
+    <id column="CONFIG_ID" property="configId" jdbcType="INTEGER" />
+    <result column="CONFIG_KEY" property="configKey" jdbcType="VARCHAR" />
+    <result column="CONFIG_VALUE" property="configValue" jdbcType="VARCHAR" />
+    <result column="CONFIG_DESC" property="configDesc" jdbcType="VARCHAR" />
+    <result column="PROJECT_ID" property="projectId" jdbcType="INTEGER" />
+    <result column="MODULE_ID" property="moduleId" jdbcType="INTEGER" />
+    <result column="DELETE_FLAG" property="deleteFlag" jdbcType="INTEGER" />
+    <result column="OPT_USER" property="optUser" jdbcType="VARCHAR" />
+    <result column="OPT_TIME" property="optTime" jdbcType="TIMESTAMP" />
+    <result column="PRODUCTION_VALUE" property="productionValue" jdbcType="VARCHAR" />
+    <result column="PRODUCTION_USER" property="productionUser" jdbcType="VARCHAR" />
+    <result column="PRODUCTION_TIME" property="productionTime" jdbcType="TIMESTAMP" />
+    <result column="TEST_VALUE" property="testValue" jdbcType="VARCHAR" />
+    <result column="TEST_USER" property="testUser" jdbcType="VARCHAR" />
+    <result column="TEST_TIME" property="testTime" jdbcType="TIMESTAMP" />
+    <result column="PRE_VALUE" property="preValue" jdbcType="VARCHAR" />
+    <result column="PRE_USER" property="preUser" jdbcType="VARCHAR" />
+    <result column="PRE_TIME" property="preTime" jdbcType="TIMESTAMP" />
+    <result column="MODULE_ID1" property="pjModuleId" jdbcType="INTEGER" />
+    <result column="PROJ_ID" property="projId" jdbcType="INTEGER" />
+    <result column="MODULE_NAME" property="moduleName" jdbcType="VARCHAR" />
+    <result column="ID" property="id" jdbcType="INTEGER"></result>
+    <result column="PROJ_CODE" property="projCode" jdbcType="VARCHAR" />
+    <result column="PROJ_NAME" property="projName" jdbcType="VARCHAR" />
+    <result column="OWNER_ID" property="ownerId" jdbcType="INTEGER" />
+    <result column="DEVELOPMENT_VERSION" property="developmentVersion" jdbcType="INTEGER" />
+    <result column="PRODUCTION_VERSION" property="productionVersion" jdbcType="INTEGER" />
+    <result column="PRE_VERSION" property="preVersion" jdbcType="INTEGER" />
+    <result column="TEST_VERSION" property="testVersion" jdbcType="INTEGER" />
+    <result column="PRJ_DELETE_FLAG" property="prjDeleteFlag" jdbcType="INTEGER" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CONFIG_ID, CONFIG_KEY, CONFIG_VALUE, CONFIG_DESC, PROJECT_ID, MODULE_ID, DELETE_FLAG,
+    OPT_USER, OPT_TIME, PRODUCTION_VALUE, PRODUCTION_USER, PRODUCTION_TIME, TEST_VALUE, 
+    TEST_USER, TEST_TIME, PRE_VALUE, PRE_USER, PRE_TIME
+  </sql>
+
+  <select id="queryByPK" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from conf_project_config
+    where CONFIG_ID = #{configId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getAvailableConfig" resultMap="BaseResultMap">
+    SELECT
+     <include refid="Base_Column_List"/>
+     FROM conf_project_config a WHERE a.CONFIG_ID=#{configId,jdbcType=INTEGER} and a.DELETE_FLAG =0
+  </select>
+
+<select id="getAllKeysByProjIdAndModuleId" resultType="map">
+  SELECT A.config_key from CONF_PROJECT_CONFIG A where A.delete_flag=0 AND A.PROJECT_ID=#{projectId,jdbcType=INTEGER}
+  <if test="moduleId!=null">
+    AND A.MODULE_ID = #{moduleId,jdbcType=INTEGER}
+  </if>
+</select>
+  <select id="queryConfigs" resultMap="ProjModuleResultMap">
+    SELECT A.CONFIG_ID,A.CONFIG_KEY,A.CONFIG_VALUE,A.CONFIG_DESC,A.PROJECT_ID,A.MODULE_ID,
+     A.DELETE_FLAG,A.OPT_USER,A.OPT_TIME,A.PRODUCTION_VALUE,A.PRODUCTION_USER,A.PRODUCTION_TIME,
+     A.TEST_VALUE,A.TEST_USER,A.TEST_TIME,A.PRE_VALUE,A.PRE_USER,A.PRE_TIME,B.MODULE_ID AS MODULE_ID1,
+     B.PROJ_ID,B.MODULE_NAME FROM CONF_PROJECT_CONFIG A, CONF_PROJECT_MODULE B
+    WHERE A.MODULE_ID = B.MODULE_ID AND A.DELETE_FLAG =0 AND A.PROJECT_ID=#{projectId,jdbcType=INTEGER}
+    <if test="moduleId!=null">
+      AND A.MODULE_ID = #{moduleId,jdbcType=INTEGER}
+    </if>
+    <if test="confKey!=null">
+      AND A.CONFIG_KEY like CONCAT('%',#{confKey,jdbcType=VARCHAR},'%')
+    </if>
+    order by A.OPT_TIME desc limit #{offset},#{pageSize}
+  </select>
+  <select id="queryConfigsCount" resultType="java.lang.Integer">
+    SELECT count(1) FROM CONF_PROJECT_CONFIG A, CONF_PROJECT_MODULE B
+    WHERE A.MODULE_ID = B.MODULE_ID AND A.DELETE_FLAG =0 AND A.PROJECT_ID=#{projectId,jdbcType=INTEGER}
+    <if test="moduleId!=null">
+      AND A.MODULE_ID = #{moduleId,jdbcType=INTEGER}
+    </if>
+    <if test="confKey!=null">
+      AND A.CONFIG_KEY like CONCAT('%',#{confKey,jdbcType=VARCHAR},'%')
+    </if>
+  </select>
+  <select id="queryConfigsFor3Tbl" resultType="map">
+    SELECT A.CONFIG_ID,A.CONFIG_KEY,A.CONFIG_VALUE,A.CONFIG_DESC,A.PROJECT_ID,A.MODULE_ID,
+     A.DELETE_FLAG,A.OPT_USER,A.OPT_TIME,A.PRODUCTION_VALUE,A.PRODUCTION_USER,A.PRODUCTION_TIME,
+     A.TEST_VALUE,A.TEST_USER,A.TEST_TIME,A.PRE_VALUE,A.PRE_USER,A.PRE_TIME,B.MODULE_ID AS MODULE_ID1,
+     B.PROJ_ID,B.MODULE_NAME,C.ID,C.PROJ_CODE,C.PROJ_NAME,C.OWNER_ID,C.DEVELOPMENT_VERSION,C.PRODUCTION_VERSION,
+     C.PRE_VERSION,C.TEST_VERSION,C.DELETE_FLAG AS PRJ_DELETE_FLAG,C.CREATE_TIME,C.UPDATE_TIME FROM CONF_PROJECT_CONFIG A, CONF_PROJECT_MODULE B, CONF_PROJECT C
+    WHERE A.MODULE_ID = B.MODULE_ID AND A.PROJECT_ID=C.ID AND A.DELETE_FLAG =0 AND C.PROJ_CODE=#{projectCode,jdbcType=VARCHAR}
+  </select>
+
+  <select id="checkProjConfExist" resultType="java.lang.Integer">
+    select count(1) from conf_project_config where MODULE_ID = #{moduleId,jdbcType=INTEGER} and PROJECT_ID = #{projectId,jdbcType=INTEGER}
+  </select>
+
+  <select id="generatorId" resultType="java.lang.Long">
+    SELECT MAX(CONFIG_ID)+1 FROM conf_project_config
+  </select>
+
+  <select id="updateDeleteFlag">
+    update conf_project_config set DELETE_FLAG=#{deleteFlag,jdbcType=INTEGER} where CONFIG_ID=#{configId,jdbcType=INTEGER}
+  </select>
+
+  <select id="queryConfigInfo" resultMap="BaseResultMap">
+     SELECT
+     <include refid="Base_Column_List"/>
+     FROM conf_project_config a WHERE a.DELETE_FLAG =#{deleteFlag,jdbcType=INTEGER}
+     AND a.PROJECT_ID=#{projectId,jdbcType=INTEGER} AND a.MODULE_ID=#{moduleId,jdbcType=INTEGER}
+     AND a.CONFIG_KEY=#{configKey,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="com.github.diamond.web.model.ConfProjectConfig" >
+    insert into conf_project_config
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="configId != null" >
+        CONFIG_ID,
+      </if>
+      <if test="configKey != null" >
+        CONFIG_KEY,
+      </if>
+      <if test="configValue != null" >
+        CONFIG_VALUE,
+      </if>
+      <if test="configDesc != null" >
+        CONFIG_DESC,
+      </if>
+      <if test="projectId != null" >
+        PROJECT_ID,
+      </if>
+      <if test="moduleId != null" >
+        MODULE_ID,
+      </if>
+      <if test="deleteFlag != null" >
+        DELETE_FLAG,
+      </if>
+      <if test="optUser != null" >
+        OPT_USER,
+      </if>
+      <if test="optTime != null" >
+        OPT_TIME,
+      </if>
+      <if test="productionValue != null" >
+        PRODUCTION_VALUE,
+      </if>
+      <if test="productionUser != null" >
+        PRODUCTION_USER,
+      </if>
+      <if test="productionTime != null" >
+        PRODUCTION_TIME,
+      </if>
+      <if test="testValue != null" >
+        TEST_VALUE,
+      </if>
+      <if test="testUser != null" >
+        TEST_USER,
+      </if>
+      <if test="testTime != null" >
+        TEST_TIME,
+      </if>
+      <if test="preValue != null" >
+        PRE_VALUE,
+      </if>
+      <if test="preUser != null" >
+        PRE_USER,
+      </if>
+      <if test="preTime != null" >
+        PRE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="configId != null" >
+        #{configId,jdbcType=INTEGER},
+      </if>
+      <if test="configKey != null" >
+        #{configKey,jdbcType=VARCHAR},
+      </if>
+      <if test="configValue != null" >
+        #{configValue,jdbcType=VARCHAR},
+      </if>
+      <if test="configDesc != null" >
+        #{configDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="moduleId != null" >
+        #{moduleId,jdbcType=INTEGER},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=INTEGER},
+      </if>
+      <if test="optUser != null" >
+        #{optUser,jdbcType=VARCHAR},
+      </if>
+      <if test="optTime != null" >
+        #{optTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productionValue != null" >
+        #{productionValue,jdbcType=VARCHAR},
+      </if>
+      <if test="productionUser != null" >
+        #{productionUser,jdbcType=VARCHAR},
+      </if>
+      <if test="productionTime != null" >
+        #{productionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="testValue != null" >
+        #{testValue,jdbcType=VARCHAR},
+      </if>
+      <if test="testUser != null" >
+        #{testUser,jdbcType=VARCHAR},
+      </if>
+      <if test="testTime != null" >
+        #{testTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="preValue != null" >
+        #{preValue,jdbcType=VARCHAR},
+      </if>
+      <if test="preUser != null" >
+        #{preUser,jdbcType=VARCHAR},
+      </if>
+      <if test="preTime != null" >
+        #{preTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.github.diamond.web.model.ConfProjectConfig" >
+    update conf_project_config
+    <set >
+      <if test="configKey != null" >
+        CONFIG_KEY = #{configKey,jdbcType=VARCHAR},
+      </if>
+      <if test="configValue != null" >
+        CONFIG_VALUE = #{configValue,jdbcType=VARCHAR},
+      </if>
+      <if test="configDesc != null" >
+        CONFIG_DESC = #{configDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null" >
+        PROJECT_ID = #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="moduleId != null" >
+        MODULE_ID = #{moduleId,jdbcType=INTEGER},
+      </if>
+      <if test="deleteFlag != null" >
+        DELETE_FLAG = #{deleteFlag,jdbcType=INTEGER},
+      </if>
+      <if test="optUser != null" >
+        OPT_USER = #{optUser,jdbcType=VARCHAR},
+      </if>
+      <if test="optTime != null" >
+        OPT_TIME = #{optTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productionValue != null" >
+        PRODUCTION_VALUE = #{productionValue,jdbcType=VARCHAR},
+      </if>
+      <if test="productionUser != null" >
+        PRODUCTION_USER = #{productionUser,jdbcType=VARCHAR},
+      </if>
+      <if test="productionTime != null" >
+        PRODUCTION_TIME = #{productionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="testValue != null" >
+        TEST_VALUE = #{testValue,jdbcType=VARCHAR},
+      </if>
+      <if test="testUser != null" >
+        TEST_USER = #{testUser,jdbcType=VARCHAR},
+      </if>
+      <if test="testTime != null" >
+        TEST_TIME = #{testTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="preValue != null" >
+        PRE_VALUE = #{preValue,jdbcType=VARCHAR},
+      </if>
+      <if test="preUser != null" >
+        PRE_USER = #{preUser,jdbcType=VARCHAR},
+      </if>
+      <if test="preTime != null" >
+        PRE_TIME = #{preTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where CONFIG_ID = #{configId,jdbcType=INTEGER}
+  </update>
+</mapper>

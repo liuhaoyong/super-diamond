@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.diamond.web.persistence.ConfProjectModuleMapper" >
+  <resultMap id="BaseResultMap" type="com.github.diamond.web.model.ConfProjectModule" >
+    <id column="MODULE_ID" property="moduleId" jdbcType="INTEGER" />
+    <result column="PROJ_ID" property="projId" jdbcType="INTEGER" />
+    <result column="MODULE_NAME" property="moduleName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    MODULE_ID, PROJ_ID, MODULE_NAME
+  </sql>
+  <select id="queryByPK" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from conf_project_module
+    where MODULE_ID = #{moduleId,jdbcType=INTEGER}
+  </select>
+  <select id="queryModuleByProjId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from conf_project_module
+    where proj_id=#{projId,jdbcType=INTEGER}
+    order by module_id
+  </select>
+  <select id="generatorId" resultType="java.lang.Long">
+    SELECT MAX(MODULE_ID)+1 FROM conf_project_module
+  </select>
+  <select id="checkModuleNameExist" resultType="java.lang.Integer">
+    select count(1) from conf_project_module where module_name=#{moduleName,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="delByModuleAndProjId">
+    delete from conf_project_module where MODULE_ID = #{moduleId,jdbcType=INTEGER} and PROJ_ID = #{projId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.github.diamond.web.model.ConfProjectModule" >
+    insert into conf_project_module
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="moduleId != null" >
+        MODULE_ID,
+      </if>
+      <if test="projId != null" >
+        PROJ_ID,
+      </if>
+      <if test="moduleName != null" >
+        MODULE_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="moduleId != null" >
+        #{moduleId,jdbcType=INTEGER},
+      </if>
+      <if test="projId != null" >
+        #{projId,jdbcType=INTEGER},
+      </if>
+      <if test="moduleName != null" >
+        #{moduleName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.github.diamond.web.model.ConfProjectModule" >
+    update conf_project_module
+    <set >
+      <if test="projId != null" >
+        PROJ_ID = #{projId,jdbcType=INTEGER},
+      </if>
+      <if test="moduleName != null" >
+        MODULE_NAME = #{moduleName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where MODULE_ID = #{moduleId,jdbcType=INTEGER}
+  </update>
+</mapper>

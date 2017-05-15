@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.diamond.web.persistence.ConfProjectMapper" >
+  <resultMap id="BaseResultMap" type="com.github.diamond.web.model.ConfProject" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="PROJ_CODE" property="projCode" jdbcType="VARCHAR" />
+    <result column="PROJ_NAME" property="projName" jdbcType="VARCHAR" />
+    <result column="OWNER_ID" property="ownerId" jdbcType="INTEGER" />
+    <result column="DEVELOPMENT_VERSION" property="developmentVersion" jdbcType="INTEGER" />
+    <result column="PRODUCTION_VERSION" property="productionVersion" jdbcType="INTEGER" />
+    <result column="PRE_VERSION" property="preVersion" jdbcType="INTEGER" />
+    <result column="TEST_VERSION" property="testVersion" jdbcType="INTEGER" />
+    <result column="DELETE_FLAG" property="deleteFlag" jdbcType="INTEGER" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="USER_PROJECT_RESULTMAP" type="com.github.diamond.web.vo.ConfUserProjectVO" >
+    <result column="ID" property="id" jdbcType="INTEGER" />
+    <result column="PROJ_CODE" property="projCode" jdbcType="VARCHAR" />
+    <result column="PROJ_NAME" property="projName" jdbcType="VARCHAR" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="OWNER_ID" property="ownerId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, PROJ_CODE, PROJ_NAME, OWNER_ID, DEVELOPMENT_VERSION, PRODUCTION_VERSION, PRE_VERSION,
+    TEST_VERSION, DELETE_FLAG, CREATE_TIME, UPDATE_TIME
+  </sql>
+  <select id="queryByPK" resultType="map" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from conf_project
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="queryProjectsByOwner" resultMap="USER_PROJECT_RESULTMAP">
+    SELECT b.ID, b.PROJ_CODE, b.PROJ_NAME, a.USER_NAME, b.OWNER_ID FROM CONF_USER a, CONF_PROJECT b
+    WHERE a.ID=b.OWNER_ID AND b.DELETE_FLAG = 0 ORDER BY b.id
+    <if test="ownerId!=null">
+      AND b.OWNER_ID = #{ownerId,jdbcType=INTEGER}
+    </if>
+  </select>
+  <select id="generatorId" resultType="java.lang.Long">
+    SELECT MAX(id)+1 FROM conf_project
+  </select>
+  <select id="queryProjectForUser" resultMap="BaseResultMap">
+    SELECT distinct b.ID, b.PROJ_CODE, b.PROJ_NAME FROM CONF_PROJECT_USER a, CONF_PROJECT b
+    WHERE a.PROJ_ID = b.ID AND b.DELETE_FLAG = 0
+    <if test="userId!=null">
+      and a.USER_ID=#{userId,jdbcType=INTEGER}
+    </if>
+  </select>
+  <insert id="insert" parameterType="com.github.diamond.web.model.ConfProject" >
+    insert into conf_project
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="projCode != null" >
+        PROJ_CODE,
+      </if>
+      <if test="projName != null" >
+        PROJ_NAME,
+      </if>
+      <if test="ownerId != null" >
+        OWNER_ID,
+      </if>
+      <if test="developmentVersion != null" >
+        DEVELOPMENT_VERSION,
+      </if>
+      <if test="productionVersion != null" >
+        PRODUCTION_VERSION,
+      </if>
+      <if test="preVersion != null" >
+        PRE_VERSION,
+      </if>
+      <if test="testVersion != null" >
+        TEST_VERSION,
+      </if>
+      <if test="deleteFlag != null" >
+        DELETE_FLAG,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="projCode != null" >
+        #{projCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projName != null" >
+        #{projName,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerId != null" >
+        #{ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="developmentVersion != null" >
+        #{developmentVersion,jdbcType=INTEGER},
+      </if>
+      <if test="productionVersion != null" >
+        #{productionVersion,jdbcType=INTEGER},
+      </if>
+      <if test="preVersion != null" >
+        #{preVersion,jdbcType=INTEGER},
+      </if>
+      <if test="testVersion != null" >
+        #{testVersion,jdbcType=INTEGER},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.github.diamond.web.model.ConfProject" >
+    update conf_project
+    <set >
+      <if test="projCode != null" >
+        PROJ_CODE = #{projCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projName != null" >
+        PROJ_NAME = #{projName,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerId != null" >
+        OWNER_ID = #{ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="developmentVersion != null" >
+        DEVELOPMENT_VERSION = #{developmentVersion,jdbcType=INTEGER},
+      </if>
+      <if test="productionVersion != null" >
+        PRODUCTION_VERSION = #{productionVersion,jdbcType=INTEGER},
+      </if>
+      <if test="preVersion != null" >
+        PRE_VERSION = #{preVersion,jdbcType=INTEGER},
+      </if>
+      <if test="testVersion != null" >
+        TEST_VERSION = #{testVersion,jdbcType=INTEGER},
+      </if>
+      <if test="deleteFlag != null" >
+        DELETE_FLAG = #{deleteFlag,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateVersion">
+    update CONF_PROJECT set DEVELOPMENT_VERSION=DEVELOPMENT_VERSION+1,PRODUCTION_VERSION=PRODUCTION_VERSION+1,
+    TEST_VERSION=TEST_VERSION+1,PRE_VERSION=PRE_VERSION+1 where ID=#{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="dynaModifyVersion">
+    update CONF_PROJECT set ${modifyField} where ID=#{id,jdbcType=INTEGER}
+  </update>
+</mapper>
