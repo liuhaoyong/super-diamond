@@ -2,7 +2,7 @@ package com.github.diamond.web.common;
 
 /**
  * 返回错误码信息，处理公共code
- * Created by qingyin on 2015/5/4.
+ * Created by liuhaoyong on 2015/5/4.
  */
 public enum SuperDiamondEnumCode {
 

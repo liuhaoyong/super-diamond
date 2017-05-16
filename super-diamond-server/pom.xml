@@ -5,13 +5,13 @@
 
 
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>jar</artifactId>
-	<version>1.0.5</version>
+	<packaging>jar</packaging>
+	<artifactId>super-diamond-server</artifactId>
 
 	<parent>
 		<artifactId>super-diamond</artifactId>
 		<groupId>org.github.diamond</groupId>
-		<version>1.0.4</version>
+		<version>1.0.6</version>
 	</parent>
 
 	<dependencies>

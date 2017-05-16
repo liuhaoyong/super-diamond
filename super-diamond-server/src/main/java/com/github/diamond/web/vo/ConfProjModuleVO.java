@@ -3,7 +3,7 @@ package com.github.diamond.web.vo;
 import java.util.Date;
 
 /**
- * Created by qingyin on 2015/5/4.
+ * Created by liuhaoyong on 2015/5/4.
  */
 public class ConfProjModuleVO {
     private Long configId;

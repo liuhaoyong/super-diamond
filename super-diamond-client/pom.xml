@@ -5,12 +5,11 @@
     <parent>
         <artifactId>super-diamond</artifactId>
         <groupId>org.github.diamond</groupId>
-        <version>1.0.4</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>super-diamond-client</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.6</version>
     <dependencies>
         <dependency>
             <groupId>commons-lang</groupId>

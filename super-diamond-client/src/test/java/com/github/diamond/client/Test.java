@@ -31,7 +31,8 @@ public class Test {
 			}
 		});
 		//config.addConfigurationListener(new ConfigurationListenerTest());
-		System.out.println(config.getString("root.test"));
+		System.out.println(config.getListByModule("event"));
+		//System.out.println(config.getString("event.2"));
 		
 		//System.in.read();
 		while (System.in.read() != 'X') {

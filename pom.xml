@@ -7,7 +7,7 @@
 	<groupId>org.github.diamond</groupId>
 	<artifactId>super-diamond</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.4</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<modules>
 		<!-- 
 		<module>super-diamond-server</module>

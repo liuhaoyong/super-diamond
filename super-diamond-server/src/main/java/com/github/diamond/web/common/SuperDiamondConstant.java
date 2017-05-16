@@ -7,7 +7,7 @@ import java.util.Map;
 
 /**
  * 所有常量信息
- * Created by qingyin on 2015/5/4.
+ * Created by liuhaoyong on 2015/5/4.
  */
 public class SuperDiamondConstant {
 

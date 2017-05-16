@@ -1,7 +1,7 @@
 package com.github.diamond.web.vo;
 
 /**
- * Created by qinyin@wacai.com on 2015/6/23.
+ * Created by liuhaoyong on 2015/6/23.
  */
 public class CacheVo {
     private String cacheKey;

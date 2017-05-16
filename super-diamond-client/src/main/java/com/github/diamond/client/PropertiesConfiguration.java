@@ -6,9 +6,12 @@ package com.github.diamond.client;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Properties;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -214,6 +217,32 @@ public class PropertiesConfiguration extends EventSource {
             properties.setProperty(key, getString(key));
         }
         return properties;
+    }
+    
+    /**
+     * 获取给定模块下的所有value
+     * @param moduleName
+     * @return
+     */
+    public List<String> getListByModule(String moduleName)
+    {
+        Set<Map.Entry<String, String>>  entry = store.entrySet();
+        if(entry==null || entry.isEmpty())
+        {
+            return null; 
+        }
+        
+        List<String> result = new ArrayList<String>();
+        
+        String prefixKey = moduleName + ".";
+        for(Map.Entry<String, String> item : entry)
+        {
+            if(StringUtils.startsWith(item.getKey(),prefixKey))
+            {
+                result.add(item.getValue());
+            }
+        }
+        return result;
     }
 
     public boolean getBoolean(String key) {

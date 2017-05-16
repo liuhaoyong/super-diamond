@@ -5,7 +5,7 @@ import com.github.diamond.web.model.ConfProjectConfig;
 
 /**
  * 策略模式,控制环境类别
- * Created by qingyin on 2015/5/4.
+ * Created by liuhaoyong on 2015/5/4.
  */
 public interface EnvStrategy {
 
