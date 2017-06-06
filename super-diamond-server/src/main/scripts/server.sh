@@ -58,8 +58,7 @@ function start_server() {
     echo "$JAVA $APP_JVM_ARGS -DBASE_HOME=$BASE_HOME -DSERVER_NAME=$SERVER_NAME-$HOST_NAME -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false \
    	  -Dcom.sun.management.jmxremote.port=$JMX_PORT $BASE_APP_ARGS com.github.diamond.jetty.JettyServer"
     sleep 1
-    nohup $JAVA $APP_JVM_ARGS -DBASE_HOME=$BASE_HOME -DSERVER_NAME=$SERVER_NAME-$HOST_NAME -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false \
-   	  -Dcom.sun.management.jmxremote.port=$JMX_PORT $BASE_APP_ARGS com.github.diamond.jetty.JettyServer >>$LOG_FILE 2>&1 &	
+    nohup $JAVA $APP_JVM_ARGS -DBASE_HOME=$BASE_HOME -DSERVER_NAME=$SERVER_NAME-$HOST_NAME $BASE_APP_ARGS com.github.diamond.jetty.JettyServer >>$LOG_FILE 2>&1 &	
     echo $! > $PID_FILE
     
     chmod 755 $PID_FILE
