@@ -102,27 +102,45 @@
                	<td value='<c:out value="${config.configKey}"/>'>
                		<c:out value="${config.configKey}"/>
                	</td>
-               	<td>
-					<a data-content='<c:out value="${config.configValue}"/>' data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="bottom">
+  				<td>
+					<a data-content=<c:out value="${config.configValue}"/> data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="bottom">
+                  	<c:if test="${fn:length(config.configValue)>30}">  
+					    ${fn:substring(config.configValue,0,30)}...  
+					</c:if> 
+                  	<c:if test="${fn:length(config.configValue)<=30}">  
+					   <c:out value="${config.configValue}"/>
+					</c:if> 
+                  	
+
+                  	<!-- 
                   	<script type="text/javascript">
-                  		var value = '${fn:replace(fn:replace(config.configValue, newLineChar, " "), newLineChar2, " ")}';
+                  		//var value = '${fn:replace(fn:replace(config.configValue, newLineChar, " "), newLineChar2, " ")}';
+                  		var value = new String(${config.configValue});//'${fn:replace(fn:replace(config.configValue, newLineChar, " "), newLineChar2, " ")}';
                   		if(value.length > 30)
                   			document.write(value.substring(0, 30) + "...");
                   		else
                   			document.write(value);
-                  	</script>
-						</a>
+                  	</script> -->
+					</a>
                	</td>
                	<td>
-					<a data-content='<c:out value="${config.configDesc}"/>' data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="bottom">
+					<a data-content=<c:out value="${config.configDesc}"/> data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="bottom">
+                	<c:if test="${fn:length(config.configDesc)>15}">  
+					    ${fn:substring(config.configDesc,0,15)}...  
+					</c:if> 
+                  	<c:if test="${fn:length(config.configDesc)<=15}">  
+					   <c:out value="${config.configDesc}"/>
+					</c:if> 
+                  	<!-- 
                   	<script type="text/javascript">
-                  		var value = '${fn:replace(fn:replace(config.configDesc, newLineChar, " "), newLineChar2, " ")}';
+                  		//var value = '${fn:replace(fn:replace(config.configDesc, newLineChar, " "), newLineChar2, " ")}';
+                  		var value =  new String(${config.configDesc});
                   		if(value.length > 15)
                   			document.write(value.substring(0, 15) + "...");
                   		else
                   			document.write(value);
-                  	</script>
-						</a>
+                  	</script> -->
+					</a>
                	</td>
                	<td>
                   	<c:out value="${config.optUser}"/>
