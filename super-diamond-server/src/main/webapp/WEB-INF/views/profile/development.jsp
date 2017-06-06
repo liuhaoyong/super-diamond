@@ -111,16 +111,6 @@
 					   <c:out value="${config.configValue}"/>
 					</c:if> 
                   	
-
-                  	<!-- 
-                  	<script type="text/javascript">
-                  		//var value = '${fn:replace(fn:replace(config.configValue, newLineChar, " "), newLineChar2, " ")}';
-                  		var value = new String(${config.configValue});//'${fn:replace(fn:replace(config.configValue, newLineChar, " "), newLineChar2, " ")}';
-                  		if(value.length > 30)
-                  			document.write(value.substring(0, 30) + "...");
-                  		else
-                  			document.write(value);
-                  	</script> -->
 					</a>
                	</td>
                	<td>
@@ -131,15 +121,7 @@
                   	<c:if test="${fn:length(config.configDesc)<=15}">  
 					   <c:out value="${config.configDesc}"/>
 					</c:if> 
-                  	<!-- 
-                  	<script type="text/javascript">
-                  		//var value = '${fn:replace(fn:replace(config.configDesc, newLineChar, " "), newLineChar2, " ")}';
-                  		var value =  new String(${config.configDesc});
-                  		if(value.length > 15)
-                  			document.write(value.substring(0, 15) + "...");
-                  		else
-                  			document.write(value);
-                  	</script> -->
+                  	
 					</a>
                	</td>
                	<td>
