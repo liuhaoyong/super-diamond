@@ -23,16 +23,20 @@
                	<td style="width:40%;">
                		<c:if test="${sessionScope.sessionUser.userCode == 'admin'}">
 						<button type="button" class="btn btn-sm btn-default" onclick="doBtn('./profile/development/<c:out value="${project.id}"/>')">development</button>
-						&nbsp;&nbsp;<button type="button" class="btn btn-sm btn-primary" onclick="doBtn('./profile/test/<c:out value="${project.id}"/>')">test</button>
+						<!-- &nbsp;&nbsp;<button type="button" class="btn btn-sm btn-primary" onclick="doBtn('./profile/test/<c:out value="${project.id}"/>')">test</button>
 						&nbsp;&nbsp;<button type="button" class="btn btn-sm btn-warning" onclick="doBtn('./profile/staging/<c:out value="${project.id}"/>')">staging</button>
-						&nbsp;&nbsp;<button type="button" class="btn btn-sm btn-danger" onclick="doBtn('./profile/production/<c:out value="${project.id}"/>')">production</button>
+						&nbsp;&nbsp;
+						<button type="button" class="btn btn-sm btn-danger" onclick="doBtn('./profile/production/<c:out value="${project.id}"/>')">production</button>
+						 -->
 					</c:if>
                		<c:if test="${sessionScope.sessionUser.userCode != 'admin'}">
+               			
 	               		<c:forEach items="${project.roles}" var="role">
 							<c:if test="${role.roleCode == 'development'}">
 								<button type="button" class="btn btn-sm btn-default" onclick="doBtn('./profile/development/<c:out value="${project.id}"/>')">development</button>
 							</c:if>
 	                  	</c:forEach>
+	                  	<!-- 
 						<c:forEach items="${project.roles}" var="role">
 							<c:if test="${role.roleCode == 'test'}">
 								&nbsp;&nbsp;<button type="button" class="btn btn-sm btn-primary" onclick="doBtn('./profile/test/<c:out value="${project.id}"/>')">test</button>
@@ -48,6 +52,8 @@
 								&nbsp;&nbsp;<button type="button" class="btn btn-sm btn-danger" onclick="doBtn('./profile/production/<c:out value="${project.id}"/>')">production</button>
 							</c:if>
 						</c:forEach>
+						
+						 -->
                   	</c:if>
                	</td>
             </tr>
