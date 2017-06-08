@@ -27,6 +27,7 @@ public class Test {
 				System.out.println(event.getPropertyValue());
 				if ("coeus.baseExcpReload".equals(event.getPropertyName())) {
 					System.out.println("************:" + event.getPropertyValue());
+					
 				}
 			}
 		});

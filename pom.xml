@@ -7,15 +7,26 @@
 	<groupId>org.github.diamond</groupId>
 	<artifactId>super-diamond</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<modules>
-		<!-- 
-		<module>super-diamond-server</module>
-		 -->
-		 
+		<!-- <module>super-diamond-server</module> -->
+
 		<module>super-diamond-client</module>
-		
+
 	</modules>
+
+	<distributionManagement>
+		<repository>
+			<id>release</id>
+			<name>release仓库</name>
+			<url>http://maven.tuhu.work:8081/nexus/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>snapshots</name>
+			<url>http://maven.tuhu.work:8081/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 
 	<properties>
