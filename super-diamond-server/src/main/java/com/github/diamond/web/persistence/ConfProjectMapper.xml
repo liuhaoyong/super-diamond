@@ -33,7 +33,7 @@
   </select>
 
   <select id="queryProjectsByOwner" resultMap="USER_PROJECT_RESULTMAP">
-    SELECT b.ID, b.PROJ_CODE, b.PROJ_NAME, a.USER_NAME, b.OWNER_ID FROM CONF_USER a, CONF_PROJECT b
+    SELECT b.ID, b.PROJ_CODE, b.PROJ_NAME, a.USER_NAME, b.OWNER_ID FROM conf_user a, conf_project b
     WHERE a.ID=b.OWNER_ID AND b.DELETE_FLAG = 0 ORDER BY b.id
     <if test="ownerId!=null">
       AND b.OWNER_ID = #{ownerId,jdbcType=INTEGER}
@@ -43,7 +43,7 @@
     SELECT MAX(id)+1 FROM conf_project
   </select>
   <select id="queryProjectForUser" resultMap="BaseResultMap">
-    SELECT distinct b.ID, b.PROJ_CODE, b.PROJ_NAME FROM CONF_PROJECT_USER a, CONF_PROJECT b
+    SELECT distinct b.ID, b.PROJ_CODE, b.PROJ_NAME FROM conf_project_user a, conf_project b
     WHERE a.PROJ_ID = b.ID AND b.DELETE_FLAG = 0
     <if test="userId!=null">
       and a.USER_ID=#{userId,jdbcType=INTEGER}
@@ -159,11 +159,11 @@
     where ID = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateVersion">
-    update CONF_PROJECT set DEVELOPMENT_VERSION=DEVELOPMENT_VERSION+1,PRODUCTION_VERSION=PRODUCTION_VERSION+1,
+    update conf_project set DEVELOPMENT_VERSION=DEVELOPMENT_VERSION+1,PRODUCTION_VERSION=PRODUCTION_VERSION+1,
     TEST_VERSION=TEST_VERSION+1,PRE_VERSION=PRE_VERSION+1 where ID=#{id,jdbcType=INTEGER}
   </update>
 
   <update id="dynaModifyVersion">
-    update CONF_PROJECT set ${modifyField} where ID=#{id,jdbcType=INTEGER}
+    update conf_project set ${modifyField} where ID=#{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -60,7 +60,7 @@
   </select>
 
   <insert id="insertPrjUsr">
-    insert into CONF_PROJECT_USER (PROJ_ID, USER_ID) values (#{projId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER})
+    insert into conf_project_user (PROJ_ID, USER_ID) values (#{projId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER})
   </insert>
 
   <insert id="insert" parameterType="com.github.diamond.web.model.ConfUser" >
@@ -137,13 +137,13 @@
     where ID = #{id,jdbcType=INTEGER}
   </update>
   <delete id="delProjectUserRole">
-    delete from CONF_PROJECT_USER_ROLE where PROJ_ID = #{projId,jdbcType=INTEGER} and USER_ID = #{userId,jdbcType=INTEGER}
+    delete from conf_project_user_role where PROJ_ID = #{projId,jdbcType=INTEGER} and USER_ID = #{userId,jdbcType=INTEGER}
   </delete>
   <delete id="delProjectUser">
-    delete from CONF_PROJECT_USER where PROJ_ID = #{projId,jdbcType=INTEGER} and USER_ID = #{userId,jdbcType=INTEGER}
+    delete from conf_project_user where PROJ_ID = #{projId,jdbcType=INTEGER} and USER_ID = #{userId,jdbcType=INTEGER}
   </delete>
   <insert id="insertConfProjUserRole">
-    insert into CONF_PROJECT_USER_ROLE (PROJ_ID, USER_ID, ROLE_CODE) values
+    insert into conf_project_user_role (PROJ_ID, USER_ID, ROLE_CODE) values
     (#{projectId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},#{roleCode,jdbcType=VARCHAR})
   </insert>
 </mapper>
