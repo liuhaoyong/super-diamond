@@ -76,7 +76,7 @@
   </select>
 
 <select id="getAllKeysByProjIdAndModuleId" resultType="map">
-  SELECT A.config_key from CONF_PROJECT_CONFIG A where A.delete_flag=0 AND A.PROJECT_ID=#{projectId,jdbcType=INTEGER}
+  SELECT A.config_key from conf_project_config A where A.delete_flag=0 AND A.PROJECT_ID=#{projectId,jdbcType=INTEGER}
   <if test="moduleId!=null">
     AND A.MODULE_ID = #{moduleId,jdbcType=INTEGER}
   </if>
@@ -85,7 +85,7 @@
     SELECT A.CONFIG_ID,A.CONFIG_KEY,A.CONFIG_VALUE,A.CONFIG_DESC,A.PROJECT_ID,A.MODULE_ID,
      A.DELETE_FLAG,A.OPT_USER,A.OPT_TIME,A.PRODUCTION_VALUE,A.PRODUCTION_USER,A.PRODUCTION_TIME,
      A.TEST_VALUE,A.TEST_USER,A.TEST_TIME,A.PRE_VALUE,A.PRE_USER,A.PRE_TIME,B.MODULE_ID AS MODULE_ID1,
-     B.PROJ_ID,B.MODULE_NAME FROM CONF_PROJECT_CONFIG A, CONF_PROJECT_MODULE B
+     B.PROJ_ID,B.MODULE_NAME FROM conf_project_config A, conf_project_module B
     WHERE A.MODULE_ID = B.MODULE_ID AND A.DELETE_FLAG =0 AND A.PROJECT_ID=#{projectId,jdbcType=INTEGER}
     <if test="moduleId!=null">
       AND A.MODULE_ID = #{moduleId,jdbcType=INTEGER}
@@ -96,7 +96,7 @@
     order by A.OPT_TIME desc limit #{offset},#{pageSize}
   </select>
   <select id="queryConfigsCount" resultType="java.lang.Integer">
-    SELECT count(1) FROM CONF_PROJECT_CONFIG A, CONF_PROJECT_MODULE B
+    SELECT count(1) FROM conf_project_config A, conf_project_module B
     WHERE A.MODULE_ID = B.MODULE_ID AND A.DELETE_FLAG =0 AND A.PROJECT_ID=#{projectId,jdbcType=INTEGER}
     <if test="moduleId!=null">
       AND A.MODULE_ID = #{moduleId,jdbcType=INTEGER}
@@ -110,7 +110,7 @@
      A.DELETE_FLAG,A.OPT_USER,A.OPT_TIME,A.PRODUCTION_VALUE,A.PRODUCTION_USER,A.PRODUCTION_TIME,
      A.TEST_VALUE,A.TEST_USER,A.TEST_TIME,A.PRE_VALUE,A.PRE_USER,A.PRE_TIME,B.MODULE_ID AS MODULE_ID1,
      B.PROJ_ID,B.MODULE_NAME,C.ID,C.PROJ_CODE,C.PROJ_NAME,C.OWNER_ID,C.DEVELOPMENT_VERSION,C.PRODUCTION_VERSION,
-     C.PRE_VERSION,C.TEST_VERSION,C.DELETE_FLAG AS PRJ_DELETE_FLAG,C.CREATE_TIME,C.UPDATE_TIME FROM CONF_PROJECT_CONFIG A, CONF_PROJECT_MODULE B, CONF_PROJECT C
+     C.PRE_VERSION,C.TEST_VERSION,C.DELETE_FLAG AS PRJ_DELETE_FLAG,C.CREATE_TIME,C.UPDATE_TIME FROM conf_project_config A, conf_project_module B, conf_project C
     WHERE A.MODULE_ID = B.MODULE_ID AND A.PROJECT_ID=C.ID AND A.DELETE_FLAG =0 AND C.PROJ_CODE=#{projectCode,jdbcType=VARCHAR}
   </select>
 
