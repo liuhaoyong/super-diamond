@@ -40,7 +40,7 @@
   </select>
   
   <select id="generatorId" resultType="java.lang.Long">
-    SELECT MAX(id)+1 FROM CONF_USER
+    SELECT MAX(id)+1 FROM conf_user
   </select>
 
   <select id="queryUsersByProjId" resultMap="BaseResultMap">
