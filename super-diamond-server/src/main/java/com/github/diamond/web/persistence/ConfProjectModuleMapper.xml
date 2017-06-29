@@ -26,7 +26,7 @@
     SELECT MAX(MODULE_ID)+1 FROM conf_project_module
   </select>
   <select id="checkModuleNameExist" resultType="java.lang.Integer">
-    select count(1) from conf_project_module where module_name=#{moduleName,jdbcType=VARCHAR}
+    select count(1) from conf_project_module where proj_id=#{projId,jdbcType=INTEGER} and module_name=#{moduleName,jdbcType=VARCHAR}
   </select>
 
   <delete id="delByModuleAndProjId">

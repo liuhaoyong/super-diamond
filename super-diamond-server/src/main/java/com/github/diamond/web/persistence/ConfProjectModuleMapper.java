@@ -1,10 +1,11 @@
 package com.github.diamond.web.persistence;
 
-import com.github.diamond.web.model.ConfProjectModule;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
 import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.github.diamond.web.model.ConfProjectModule;
 
 public interface ConfProjectModuleMapper {
 
@@ -18,5 +19,5 @@ public interface ConfProjectModuleMapper {
 
     void delByModuleAndProjId(@Param("moduleId")long moduleId,@Param("projId")long projId);
 
-    int checkModuleNameExist(@Param("moduleName")String moduleName);
+    int checkModuleNameExist(@Param("projId") Long projId, @Param("moduleName")String moduleName);
 }

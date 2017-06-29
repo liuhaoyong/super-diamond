@@ -5,12 +5,12 @@ package com.github.diamond.web.controller;
 
 import javax.servlet.http.HttpSession;
 
-import com.github.diamond.web.common.SuperDiamondEnumCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.github.diamond.web.common.SuperDiamondEnumCode;
 import com.github.diamond.web.service.ModuleService;
 
 /**
@@ -25,7 +25,7 @@ public class ModuleController extends BaseController {
 	
 	@RequestMapping("/module/save")
 	public String save(String type, Long projectId, String name) {
-		if(!this.moduleService.checkModuleNameExist(name.trim())){
+		if(!this.moduleService.checkModuleNameExist(projectId, name.trim())){
 			moduleService.save(projectId, name);
 		}
 		return "redirect:/profile/" + type + "/" + projectId;

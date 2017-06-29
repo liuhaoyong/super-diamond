@@ -3,17 +3,18 @@
  */    
 package com.github.diamond.web.service;
 
-import com.github.diamond.web.model.ConfProjectModule;
-import com.github.diamond.web.persistence.ConfProjectConfigMapper;
-import com.github.diamond.web.persistence.ConfProjectModuleMapper;
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Map;
+import com.github.diamond.web.model.ConfProjectModule;
+import com.github.diamond.web.persistence.ConfProjectConfigMapper;
+import com.github.diamond.web.persistence.ConfProjectModuleMapper;
 
 /**
  * Create on @2013-8-21 @下午8:18:44 
@@ -63,9 +64,9 @@ public class ModuleService {
 		}
 	}
 
-	public boolean checkModuleNameExist(String moduleName){
+	public boolean checkModuleNameExist(Long projectId, String moduleName){
 		logger.info("begin - ModuleService.checkModuleNameExist method;moduleName="+moduleName+"");
-		int count=this.confProjectModuleMapper.checkModuleNameExist(moduleName);
+		int count=this.confProjectModuleMapper.checkModuleNameExist(projectId, moduleName);
 		if(count>0){
 			return true;
 		}
