@@ -11,7 +11,7 @@
 	<parent>
 		<artifactId>super-diamond</artifactId>
 		<groupId>org.github.diamond</groupId>
-		<version>1.0.6</version>
+		<version>1.0.2017063001</version>
 	</parent>
 	<repositories>
 		<repository>
