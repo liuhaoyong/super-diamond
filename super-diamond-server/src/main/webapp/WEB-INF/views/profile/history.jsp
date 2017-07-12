@@ -53,7 +53,7 @@
                 <fmt:formatDate value="${his.optTime}" pattern="yyyy-MM-dd HH:mm:ss" />
             </td>
             <td>
-                <a href="javascript:rollback('${his.configId}','${his.hisId}','${version}','${his.configValue}','${projectId}')" title="回滚到当前版本"><i class="glyphicon glyphicon-refresh"></i></a>
+                <a href="javascript:rollback('${his.configId}','${his.hisId}','${version}','${projectId}')" title="回滚到当前版本"><i class="glyphicon glyphicon-refresh"></i></a>
             </td>
         </tr>
         </c:forEach>
@@ -69,7 +69,7 @@
     $(function(){
         $("[data-toggle='popover']").popover();
     })
-    function rollback(configId,hisId,version,hisValue,projectId){
+    function rollback(configId,hisId,version,projectId){
         var pgNum=$("#pageNumber").val();
         var qryKey=$("#confKey").val();
         var moduleId=$("#moduleId").val();
@@ -78,7 +78,7 @@
             message: "请确认是否要回滚到当前配置项?",
             callback: function (result) {
                 if (result) {
-                    var url="/config/rollback/"+hisId+"/"+configId+"?moduleId="+moduleId+"&projectId="+projectId+"&type="+type+"&qryKey="+qryKey+"&pgNum="+pgNum+"&version="+version+"&hisValue="+hisValue;
+                    var url="/config/rollback/"+hisId+"/"+configId+"?moduleId="+moduleId+"&projectId="+projectId+"&type="+type+"&qryKey="+qryKey+"&pgNum="+pgNum+"&version="+version;
                     window.location.href = url;
                 }
             }

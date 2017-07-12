@@ -116,7 +116,7 @@ public class ConfigController extends BaseController {
 		if(version.longValue() != ((Integer)project.get(versionColumn)).longValue()) {
 			throw new RuntimeException(SuperDiamondEnumCode.CONFIG_ALREADY_UPDATE.getMsg());
 		}
-		this.historyService.rollbackConfig(hisId,configId,type,hisValue,user.getUserCode());
+		this.historyService.rollbackConfig(hisId,configId,type,user.getUserCode());
 		return "redirect:/profile/" + type + "/" + projectId + "?moduleId=" + moduleId+"&confKey="+qryKey+"&pageNumber="+pgNum+"";
 	}
 }

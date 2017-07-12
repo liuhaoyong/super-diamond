@@ -1,16 +1,16 @@
 package com.github.diamond.web.service;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.github.diamond.web.common.SuperDiamondConstant;
 import com.github.diamond.web.model.ConfHistory;
 import com.github.diamond.web.model.ConfProjectConfig;
 import com.github.diamond.web.persistence.ConfHistoryMapper;
 import com.github.diamond.web.persistence.ConfProjectConfigMapper;
 import com.github.diamond.web.strategy.Context;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 
@@ -41,11 +41,11 @@ public class HistoryService {
      * @param hisValue
      * @param user
      */
-    public void rollbackConfig(Long hisId,Long configId,String type,String hisValue,String user){
+    public void rollbackConfig(Long hisId,Long configId,String type,String user){
         ConfHistory history=this.confHistoryMapper.queryByHisId(hisId);
         if(history!=null){
             Context context=new Context(SuperDiamondConstant.envMap.get(type));
-            ConfProjectConfig config=context.setFieldValue(hisValue, user);
+            ConfProjectConfig config=context.setFieldValue(history.getConfigValue(), user);
             config.setConfigId(configId);
             confProjectConfigMapper.update(config);
         }

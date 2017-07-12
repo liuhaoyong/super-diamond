@@ -103,7 +103,7 @@
                		<c:out value="${config.configKey}"/>
                	</td>
   				<td>
-					<a data-content=<c:out value="${config.configValue}"/> data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="bottom">
+					<a data-content='<c:out value="${config.configValue}"/>' data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="bottom">
                   	<c:if test="${fn:length(config.configValue)>30}">  
 					    ${fn:substring(config.configValue,0,30)}...  
 					</c:if> 
@@ -114,7 +114,7 @@
                	</td>
                	
                	<td>
-					<a data-content=<c:out value="${config.configDesc}"/> data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="bottom">
+					<a data-content='<c:out value="${config.configDesc}"/>' data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="bottom">
                 	<c:if test="${fn:length(config.configDesc)>15}">  
 					    ${fn:substring(config.configDesc,0,15)}...  
 					</c:if> 
