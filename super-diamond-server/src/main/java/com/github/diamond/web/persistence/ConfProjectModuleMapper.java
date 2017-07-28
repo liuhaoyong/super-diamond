@@ -13,11 +13,13 @@ public interface ConfProjectModuleMapper {
 
     int update(ConfProjectModule record);
 
-    List<Map<String, Object>> queryModuleByProjId(@Param("projId")long projId);
+    List<Map<String, Object>> queryModuleByProjId(@Param("projId") long projId);
+
+    ConfProjectModule queryByProjIdAndModuleName(@Param("projId") long projId, @Param("moduleName") String moduleName);
 
     Long generatorId();
 
-    void delByModuleAndProjId(@Param("moduleId")long moduleId,@Param("projId")long projId);
+    void delByModuleAndProjId(@Param("moduleId") long moduleId, @Param("projId") long projId);
 
-    int checkModuleNameExist(@Param("projId") Long projId, @Param("moduleName")String moduleName);
+    int checkModuleNameExist(@Param("projId") Long projId, @Param("moduleName") String moduleName);
 }

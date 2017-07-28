@@ -9,10 +9,9 @@
 	<packaging>pom</packaging>
 	<version>1.0.2017063001</version>
 	<modules>
-		<!-- <module>super-diamond-server</module> -->
-
+		<module>super-diamond-server</module>
 		<module>super-diamond-client</module>
-
+		<module>super-diamond-facade</module>
 	</modules>
 
 	<distributionManagement>

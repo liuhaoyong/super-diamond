@@ -3,6 +3,18 @@
  */
 package com.github.diamond.web.service;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.github.diamond.utils.Page;
 import com.github.diamond.web.common.SuperDiamondConstant;
 import com.github.diamond.web.model.ConfHistory;
@@ -11,17 +23,6 @@ import com.github.diamond.web.persistence.ConfHistoryMapper;
 import com.github.diamond.web.persistence.ConfProjectConfigMapper;
 import com.github.diamond.web.strategy.Context;
 import com.github.diamond.web.vo.ConfProjModuleVO;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Create on @2013-8-23 @上午10:26:17
@@ -30,18 +31,20 @@ import java.util.Map;
  */
 @Service
 public class ConfigService {
-    Logger logger = LoggerFactory.getLogger(this.getClass());
+    Logger                          logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
-    private ProjectService projectService;
+    private ProjectService          projectService;
     @Autowired
     private ConfProjectConfigMapper confProjectConfigMapper;
     @Autowired
-    private ConfHistoryMapper confHistoryMapper;
+    private ConfHistoryMapper       confHistoryMapper;
 
-    public Page<ConfProjModuleVO> queryConfigs(Long projectId, Long moduleId, int pageNum, int pageSize, String confKey) {
+    public Page<ConfProjModuleVO> queryConfigs(Long projectId, Long moduleId, int pageNum, int pageSize,
+                                               String confKey) {
         int totalCount = this.confProjectConfigMapper.queryConfigsCount(projectId, moduleId, confKey);
         Page<ConfProjModuleVO> page = new Page<ConfProjModuleVO>(pageNum, pageSize, totalCount);
-        List<ConfProjModuleVO> list = this.confProjectConfigMapper.queryConfigs(projectId, moduleId, page.getFirstResult(), page.getPageSize(), confKey);
+        List<ConfProjModuleVO> list = this.confProjectConfigMapper.queryConfigs(projectId, moduleId,
+                page.getFirstResult(), page.getPageSize(), confKey);
         page.setResult(list);
         return page;
     }
@@ -53,17 +56,26 @@ public class ConfigService {
     }
 
     @Transactional
-    public void insertConfig(String configKey, String configValue, String configDesc, Long projectId, Long moduleId, String user) {
+    public void insertConfig(String configKey, String configValue, String configDesc, Long projectId, Long moduleId,
+                             String user) {
         logger.info("begin - ConfigService.insertConfig method");
         long id = 1;
         Long genId = this.confProjectConfigMapper.generatorId();
         if (genId != null) {
             id = genId.longValue();
         }
-        ConfProjectConfig config = ConfProjectConfig.loadConfigData(configKey, configValue, configDesc, projectId, moduleId, user);
+        ConfProjectConfig config = ConfProjectConfig.loadConfigData(configKey, configValue, configDesc, projectId,
+                moduleId, user);
         config.setConfigId(id);
         this.confProjectConfigMapper.insert(config);
         projectService.updateVersion(projectId);
+    }
+
+    @Transactional
+    public void addNewAndDelOldConfig(String configKey, String configValue, String configDesc, Long projectId,
+                                      Long moduleId, String user, Long oldConfigId) {
+        insertConfig(configKey, configValue, configDesc, projectId, moduleId, user);
+        deleteConfig(oldConfigId, projectId);
     }
 
     /**
@@ -79,7 +91,8 @@ public class ConfigService {
      * @param user
      */
     @Transactional
-    public void updateConfig(String type, Long configId, String configKey, String configValue, String configDesc, Long projectId, Long moduleId, String user, String oldValue) {
+    public void updateConfig(String type, Long configId, String configKey, String configValue, String configDesc,
+                             Long projectId, Long moduleId, String user, String oldValue) {
         logger.info("begin - ConfigService.updateConfig,type=" + type + "");
         Context context = new Context(SuperDiamondConstant.envMap.get(type));
         ConfProjectConfig config = context.setFieldValue(configValue, user);
@@ -101,18 +114,38 @@ public class ConfigService {
         logger.info("end - ConfigService.updateConfig");
     }
 
-    private void saveHistoryRecord(ConfHistory history){
+    /**
+     * 增加新配置，删除老配置
+     * 
+     * @param type
+     * @param configId
+     * @param configKey
+     * @param configValue
+     * @param configDesc
+     * @param projectId
+     * @param moduleId
+     * @param user
+     * @param oldValue
+     */
+    @Transactional
+    public void updateAndDelConfig(String type, Long configId, String configKey, String configValue, String configDesc,
+                                   Long projectId, Long moduleId, String user, String oldValue, Long oldConfigId) {
+        updateConfig(type, configId, configKey, configValue, configDesc, projectId, moduleId, user, oldValue);
+        deleteConfig(oldConfigId, projectId);
+    }
+
+    private void saveHistoryRecord(ConfHistory history) {
         //根据configId和type查询当前配置的历史记录条数
-        List<ConfHistory> histories=this.confHistoryMapper.queryConfHisByConfId(history);
-        if(histories!=null&&histories.size()>3){
+        List<ConfHistory> histories = this.confHistoryMapper.queryConfHisByConfId(history);
+        if (histories != null && histories.size() > 3) {
             //超过5条的历史记录清除
-            List<Long> hisIds=new ArrayList<>();
-            for (int i=0;i<histories.size();i++){
-                if(i>3){
+            List<Long> hisIds = new ArrayList<>();
+            for (int i = 0; i < histories.size(); i++) {
+                if (i > 3) {
                     hisIds.add(histories.get(i).getHisId());
                 }
             }
-            if(hisIds.size()>0){
+            if (hisIds.size() > 0) {
                 this.confHistoryMapper.deleteByBatch(hisIds);
             }
         }
@@ -141,25 +174,26 @@ public class ConfigService {
                 versionFlag = false;
             }
             //玄武  注释掉描述，可能导致描述解析出key 和 value
-//            String desc = (String) map.get("CONFIG_DESC");
-//            if (StringUtils.isNotBlank(desc))
-//                message += "#" + desc + "\r\n";
-            String value = getValue((String)map.get(context.getEnvField()));
-            if(value != null){
-                message += map.get("MODULE_NAME") + "." + map.get("CONFIG_KEY") + " = " + value.replaceAll("\r\n", " ").replaceAll("\n", " ") + "\r\n";
+            //            String desc = (String) map.get("CONFIG_DESC");
+            //            if (StringUtils.isNotBlank(desc))
+            //                message += "#" + desc + "\r\n";
+            String value = getValue((String) map.get(context.getEnvField()));
+            if (value != null) {
+                message += map.get("MODULE_NAME") + "." + map.get("CONFIG_KEY") + " = "
+                        + value.replaceAll("\r\n", " ").replaceAll("\n", " ") + "\r\n";
             }
         }
         message += "#end#\r\n";
         return message;
     }
 
-    private String getValue(String value){
-        if (value == null){
+    private String getValue(String value) {
+        if (value == null) {
             return null;
         }
 
         String _value = value.replaceAll("\r\n", " ").replaceAll("\n", " ");
-        if (StringUtils.isNotBlank(_value)){
+        if (StringUtils.isNotBlank(_value)) {
             return _value;
         }
 

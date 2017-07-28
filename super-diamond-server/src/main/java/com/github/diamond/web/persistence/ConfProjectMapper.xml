@@ -31,6 +31,13 @@
     from conf_project
     where ID = #{id,jdbcType=INTEGER}
   </select>
+  
+  <select id="queryByProjCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from conf_project
+    where PROJ_CODE = #{projCode,jdbcType=VARCHAR}
+  </select>
 
   <select id="queryProjectsByOwner" resultMap="USER_PROJECT_RESULTMAP">
     SELECT b.ID, b.PROJ_CODE, b.PROJ_NAME, a.USER_NAME, b.OWNER_ID FROM conf_user a, conf_project b

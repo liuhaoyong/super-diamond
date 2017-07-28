@@ -204,7 +204,12 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-
+		
+		<dependency>
+			<groupId>org.github.diamond</groupId>
+			<artifactId>super-diamond-facade</artifactId>
+			<version>1.0.2017072701</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>super-diamond</finalName>
