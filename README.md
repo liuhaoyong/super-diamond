@@ -14,8 +14,18 @@ https://github.com/melin/super-diamond
 
 ## 接口名称：编辑服务
 
-**请求地址(POST)：**/tuhu_configuration_center/edit
-**请求报文示例：**{"type":"development","projCode":"cashier-core","moduleName":"dimensionDef","configKey":"test","oldConfigKey":"test","configValue":"testttt","configDesc":"test","userCode":"quyinjun","md5Passwd":"25d55ad283aa400af464c76d713c07ad"}
+**请求地址(POST)：**
+
+```
+/tuhu_configuration_center/edit
+```
+
+**请求报文示例：**
+
+```
+{"type":"development","projCode":"cashier-core","moduleName":"dimensionDef","configKey":"test","oldConfigKey":"test","configValue":"testttt","configDesc":"test","userCode":"quyinjun","md5Passwd":"25d55ad283aa400af464c76d713c07ad"}
+```
+
 **请求参数说明：**
 
 ```
@@ -49,7 +59,7 @@ md5Passwd:登陆用户对应的密码的md5值
 }
 ```
 
-响应编码：
+**响应编码：**
 
 ```
 SUCCESS("OK"),

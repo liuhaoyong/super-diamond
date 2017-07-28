@@ -58,6 +58,7 @@
 		<mybatis-ehcache.version>1.0.0</mybatis-ehcache.version>
 		<org.mybatis.generator>1.3.2</org.mybatis.generator>
 		<jetty.version>9.2.2.v20140723</jetty.version>
+		<maven.test.skip>true</maven.test.skip>
 	</properties>
 
 
