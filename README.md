@@ -30,6 +30,16 @@ userCode:登陆用户名(此用户必须经过daimond后台进行正确的授权
 md5Passwd:登陆用户对应的密码的md5值
 ```
 
+说明：
+
+​	configKey不为空，oldConfigKey为空，则新增config
+
+​	configKey为空，oldConfigKey不为空，则删除oldConfig
+
+​	configKey==oldConfigKey,为更新
+
+​	configKey！=oldConfigKey，删除oldConfig, 增加config
+
 **响应参数：**(只有code==SUCCESS时业务处理正常，其它都为异常)
 
 ```
