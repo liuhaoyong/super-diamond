@@ -42,13 +42,14 @@ md5Passwd:登陆用户对应的密码的md5值
 
 说明：
 
-​	configKey不为空，oldConfigKey为空，则新增config
+1. configKey不为空，oldConfigKey为空，则新增config
 
-​	configKey为空，oldConfigKey不为空，则删除oldConfig
+2. configKey为空，oldConfigKey不为空，则删除oldConfig
 
-​	configKey==oldConfigKey,为更新
+3. configKey==oldConfigKey,为更新
 
-​	configKey！=oldConfigKey，删除oldConfig, 增加config
+4. configKey！=oldConfigKey，删除oldConfig, 增加config
+
 
 **响应参数：**(只有code==SUCCESS时业务处理正常，其它都为异常)
 
