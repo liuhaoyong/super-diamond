@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -244,6 +245,33 @@ public class PropertiesConfiguration extends EventSource {
         }
         return result;
     }
+    
+    /**
+     * 获取给定模块下的所有配置项的键值对
+     * @param moduleName
+     * @return
+     */
+    public Map<String, String> getMapByModule(String moduleName)
+    {
+        Set<Map.Entry<String, String>>  entrySet = store.entrySet();
+        if(entrySet==null || entrySet.isEmpty())
+        {
+            return null; 
+        }
+        
+        Map<String, String> result = new HashMap<String, String>();
+        
+        String prefixKey = moduleName + ".";
+        for(Map.Entry<String, String> item : entrySet)
+        {
+            if(StringUtils.startsWith(item.getKey(),prefixKey))
+            {
+                result.put(StringUtils.removeStart(item.getKey(), prefixKey), item.getValue());
+            }
+        }
+        return result;
+    }
+    
 
     public boolean getBoolean(String key) {
         Boolean b = getBoolean(key, null);
