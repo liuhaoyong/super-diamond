@@ -20,6 +20,8 @@ SERVER_NAME="SuperDiamondServer"
 export JMX_PORT=4001
 export CLASSPATH=$BASE_DIR/conf:$(ls $BASE_DIR/lib/*.jar | tr '\n' :)
 
+REMOTE_DEBUG_PORT=4002
+
 #UEAP jvm args
 BASE_APP_ARGS=""
 BASE_JVM_ARGS="-Xmx512m -Xms256m -server"
